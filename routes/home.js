@@ -1,16 +1,11 @@
 const express = require('express');
+const { leerUrl, agregarUrl, eliminarUrl } = require('../controllers/homeController');
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  const urls = [
-    { origin: "www.google.com/bluuweb1", shortURL: "kjghjhg1" },
-    { origin: "www.google.com/bluuweb2", shortURL: "kjghjhg2" },
-    { origin: "www.google.com/bluuweb3", shortURL: "kjghjhg3" },
-  ]
-  res.render("home", { urls: urls });
-});
+router.get("/", leerUrl);
+router.post("/", agregarUrl);
+router.get("/eliminar/:id", eliminarUrl);
 
 
-
-module.export = router;
+module.exports = router;
 
