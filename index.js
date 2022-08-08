@@ -1,9 +1,22 @@
 const express = require("express");
 const { create } = require("express-handlebars");
+const session = require("express-session");
+const flash = require('connect-flash');
+
 require('dotenv').config();
 require('./database/db');
 
 const app = express();
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false,
+  name: "secret-name"
+}));
+
+app.use(flash())
+
+
 
 const hbs = create({
   extname: ".hbs",

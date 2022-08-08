@@ -45,14 +45,16 @@ userSchema.pre('save', async function (next) {
     next();
 
   } catch (error) {
-    //validar si es que falla la encriptacion de contraseña
+    
     console.log(error)
-    next();
+    throw new Error('error al codificar la contraseña');
     
   }
-  
-
 })
+
+userSchema.methods.comparePassword = async function (candidatePassword) {
+  return await bcrypt.compare(candidatePassword, this.password)
+}
 
 
 module.exports = mongoose.model("User", userSchema);
