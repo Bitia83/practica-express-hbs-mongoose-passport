@@ -1,10 +1,11 @@
 const User = require("../models/User");
 const { nanoid } = require('nanoid');
+const nodemailer = require("nodemailer");
 const { validationResult } = require('express-validator');
 
 
 const registerForm = (req, res) => {
-  res.render('register', {mensajes:req.flash("mensajes")})
+  res.render('register')
  
 }
 
@@ -27,6 +28,9 @@ const registerUser = async (req, res) => {
     await user.save();
 
   // enviar correo electronico con la confirmacion de la cuenta
+    
+    
+    
        req.flash("mensajes", [{msg: "revisa tu correo y valida cuenta"}])
     res.redirect('/auth/login');
     
@@ -64,7 +68,7 @@ const confirmarCuenta = async (req, res) => {
 
 
  const loginForm = (req, res) => {
-   res.render('login',{mensajes:req.flash("mensajes")});
+   res.render('login');
 }
 
 

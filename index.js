@@ -2,6 +2,7 @@ const express = require("express");
 const { create } = require("express-handlebars");
 const session = require("express-session");
 const flash = require('connect-flash');
+const csrf = require("csurf");
 const  passport  = require('passport');
 const User = require("./models/User");
 
@@ -37,8 +38,19 @@ app.engine(".hbs", hbs.engine);
 app.set("view engine", ".hbs");
 app.set("views", "./views");
 
+
+
 app.use(express.static(__dirname + "/public"));
 app.use(express.urlencoded({ extended: true }));
+
+app.use(csrf());
+
+app.use((req, res, next) => {
+  res.locals.csrfToken = req.csrfToken()
+  res.locals.mensajes = req.flash("mensajes")
+  next()
+})
+
 app.use("/", require("./routes/home"));
 app.use("/auth", require("./routes/auth"));
 
