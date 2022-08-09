@@ -2,6 +2,7 @@ const Url = require('../models/Url')
 const { nanoid } = require("nanoid");
 
 const leerUrl = async (req, res) => {
+  console.log(req.user);
   try {
     const urls = await Url.find().lean()
     res.render("home", { urls: urls });

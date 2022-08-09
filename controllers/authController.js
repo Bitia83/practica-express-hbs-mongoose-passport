@@ -86,16 +86,31 @@ const loginUser = async (req, res) => {
     if (!user.cuentaConfirmada) throw new Error('falta confirma cuenta');
     if (await user.comparePassword(password)) throw new Error('password invalido')
 
-    res.redirect('/');
+
+    //creando sesion de usuario a traves de passport
+    req.login(user, function (err) {
+      if (err) throw new Error('error creando sesio')
+      res.redirect('/');
+    })
+
+   
     
   } catch (error) {
-    req.flash("mensajes", [{msg: error.message}])
+    req.flash("mensajes", [{ msg: error.message }])
     return res.redirect('/auth/login')
    
     // console.log(error)
     // res.send(error.message)
   }
-}
+};
+
+
+const cerrarSesion = (req, res) => {
+  req.logout(function (err) {
+    if (err) { return (err); }
+ res.redirect("/auth/login")
+})
+};
 
 
 
@@ -104,5 +119,6 @@ module.exports = {
   registerForm,
   registerUser,
   confirmarCuenta,
-  loginUser
+  loginUser,
+  cerrarSesion
 }
